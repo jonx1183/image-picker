@@ -2,6 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { StyleSheet, FlatList, Button, View, TextInput, Text, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { storage } from './Firebase';
+import { ref, uploadBytes} from 'firebase/storage'
 
 export default function App() {
   const [text, setText] = useState('')
@@ -27,6 +29,15 @@ export default function App() {
 
   }
 
+  async function uploadImage(){
+    const res = await fetch(imagePath)
+    const blob = await res.blob()
+    const storageRef = ref(storage, "myImage.jpg")
+    uploadBytes(storageRef, blob).then((snaphot) => {
+      alert("image uploaded")
+    })
+  }
+
   return (
     <View style={styles.container}>
       <Text>Hello</Text>
@@ -49,6 +60,7 @@ export default function App() {
       />
       <Image style={{width:200, height:200}} source={{uri:imagePath}} />
       <Button title ='Picke image' onPress={launchImagePicker} />
+      <Button title ='Upload image' onPress={uploadImage} />
       <StatusBar style="auto" />
     </View>
   );
