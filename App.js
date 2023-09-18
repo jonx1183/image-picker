@@ -32,14 +32,14 @@ export default function App() {
   async function uploadImage(){
     const res = await fetch(imagePath)
     const blob = await res.blob()
-    const storageRef = ref(storage, "myImage.jpg")
+    const storageRef = ref(storage, "myImage")
     uploadBytes(storageRef, blob).then((snaphot) => {
       alert("image uploaded")
     })
   }
 
   async function downloadImage(){
-    getDownloadURL(ref(storage, "myImage.jpg"))
+    getDownloadURL(ref(storage, "myImage"))
     .then((url) => {
       setImagePath(url)
     })
