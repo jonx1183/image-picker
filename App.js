@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { StyleSheet, FlatList, Button, View, TextInput, Text, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { storage } from './Firebase';
-import { ref, uploadBytes} from 'firebase/storage'
+import { ref, uploadBytes, getDownloadURL} from 'firebase/storage'
 
 export default function App() {
   const [text, setText] = useState('')
@@ -38,6 +38,16 @@ export default function App() {
     })
   }
 
+  async function downloadImage(){
+    getDownloadURL(ref(storage, "myImage.jpg"))
+    .then((url) => {
+      setImagePath(url)
+    })
+    .catch((error) => {
+      alert("Error at download image" + error)
+    })
+  }
+
   return (
     <View style={styles.container}>
       <Text>Hello</Text>
@@ -59,6 +69,7 @@ export default function App() {
       }
       />
       <Image style={{width:200, height:200}} source={{uri:imagePath}} />
+      <Button title ='Download image' onPress={downloadImage} />
       <Button title ='Picke image' onPress={launchImagePicker} />
       <Button title ='Upload image' onPress={uploadImage} />
       <StatusBar style="auto" />
