@@ -1,4 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { StyleSheet, FlatList, Button, View, TextInput, Text, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
@@ -10,6 +12,7 @@ export default function App() {
   const [notes, setNotes] = useState([])
   const [editObj, setEditObj] = useState(null)
   const [imagePath, setImagePath] = useState(null)
+  const stack = createNativeStackNavigator()
 
   
  function buttonHandler(){
@@ -66,6 +69,25 @@ export default function App() {
   }
 
   return (
+
+    <NavigationContainer>
+      <stack.Navigator initialRouteName='listpage'>
+        <stack.Screen
+        name ='listPage'
+        component={listPage}
+
+        />
+        <stack.Screen
+        name ='detailPage'
+        component={detailPage}
+
+        />
+        
+      </stack.Navigator>
+    </NavigationContainer>
+
+
+/*
     <View style={styles.container}>
       <Text>Hello</Text>
       { editObj && 
@@ -92,7 +114,30 @@ export default function App() {
       <Button title ='Upload image' onPress={uploadImage} />
       <StatusBar style="auto" />
     </View>
+    */
   );
+}
+
+const listPage = ({navigation, route}) =>{
+
+  function handleButton(){
+    navigation.navigate('detailPage')
+
+  }
+  return(
+    <View>
+      <Text>Hej</Text>
+      <Button title='detailPage' onPress={handleButton}></Button>
+    </View>
+  )
+}
+
+const detailPage = ({navigation, route}) =>{
+  return(
+    <View>
+      <Text>Details...</Text>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
