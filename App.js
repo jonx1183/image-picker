@@ -29,6 +29,23 @@ export default function App() {
 
   }
 
+  async function launchCamera(){
+    const result = await ImagePicker.requestCameraPermissionsAsync()
+    if(result.granted===false){
+      alert("Acces denied")
+    }else{
+      ImagePicker.launchCameraAsync({
+        quality:1
+      })
+      .then((response) => {
+        if(!response.canceled){
+          setImagePath(response.assets[0].uri)
+        }
+      })
+      .catch((error) => alert("Error in launchCamera" + error))
+    }
+  }
+
   async function uploadImage(){
     const res = await fetch(imagePath)
     const blob = await res.blob()
@@ -70,7 +87,8 @@ export default function App() {
       />
       <Image style={{width:200, height:200}} source={{uri:imagePath}} />
       <Button title ='Download image' onPress={downloadImage} />
-      <Button title ='Picke image' onPress={launchImagePicker} />
+      <Button title ='Pick image' onPress={launchImagePicker} />
+      <Button title ='Camera' onPress={launchCamera} />
       <Button title ='Upload image' onPress={uploadImage} />
       <StatusBar style="auto" />
     </View>
