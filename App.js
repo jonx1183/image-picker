@@ -119,23 +119,29 @@ export default function App() {
 }
 
 const listPage = ({navigation, route}) =>{
+  const myList = [{key:1, name:"Nep Nep"}, {key:2, name:"Nepi"}] 
 
-  function handleButton(){
-    navigation.navigate('detailPage')
+  function handleButton(item){
+    navigation.navigate('detailPage', {message:item})
 
   }
   return(
     <View>
       <Text>Hej</Text>
       <Button title='detailPage' onPress={handleButton}></Button>
+      <FlatList
+        data={myList}
+        renderItem={(note) => <Button title={note.item.name} onPress={()=>handleButton(note.item)}/>}
+      />
     </View>
   )
 }
 
 const detailPage = ({navigation, route}) =>{
+  const message = route.params?.message
   return(
     <View>
-      <Text>Details...</Text>
+      <Text>Details...{message.name}</Text>
     </View>
   )
 }
