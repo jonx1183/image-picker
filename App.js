@@ -129,14 +129,18 @@ const listPage = ({navigation, route}) =>{
   const myList = [{key:1, name:"Nep Nep"}, {key:2, name:"Nepi"}] 
 
   function handleButton(item){
-    navigation.navigate('detailPage','noteBookPage', {message:item})
+    navigation.navigate('detailPage', {message:item},'noteBookPage')
 
+  }
+
+  function button2(){
+    navigation.navigate('noteBookPage')
   }
   return(
     <View>
       <Text>Hej</Text>
       <Button title='detailPage' onPress={handleButton}></Button>
-      <Button title='noteBookPage' onPress={handleButton}></Button>
+      <Button title='noteBookPage' onPress={button2}></Button>
       <FlatList
         data={myList}
         renderItem={(note) => <Button title={note.item.name} onPress={()=>handleButton(note.item)}/>}
